@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<title>Barber and Beyond Hair Studio</title>
+<style>
+body{max-width:420px;margin:auto;font-family:sans-serif;padding:12px;background:#fafafa}
+.card{border:1px solid #eee;border-radius:14px;overflow:hidden;background:white;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.btn{background:black;color:white;padding:8px 14px;border-radius:7px;text-decoration:none;float:right;font-size:14px}
+#install{position:fixed;bottom:12px;left:12px;right:12px;background:black;color:white;padding:15px;border-radius:12px;text-align:center;display:none;z-index:999;font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+</style>
+</head>
+<body>
+
+<!-- BARBER AND BEYOND - READY -->
+<h2 style="margin-bottom:2px">Barber and Beyond Hair Studio</h2>
+<p style="color:gray;margin-top:0">Eldoret - Premium Cuts</p>
+
+<a href="https://wa.me/254701771654" style="background:#25D366;color:white;padding:14px;display:block;text-align:center;border-radius:10px;text-decoration:none;font-weight:bold;margin:12px 0">💬 Book on WhatsApp - 0701771654</a>
+
+<div id="list"></div>
+
+<div id="install" onclick="installApp()">⬇️ Add Barber and Beyond to your Phone</div>
+
+<script>
+const PRODUCTS = [
+ {name:"Haircut", price:300, image:"https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=500", desc:"Clean fade + styling"},
+ {name:"Trim", price:200, image:"https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=500", desc:"Beard trim & shape"},
+ {name:"Haircut + Beard", price:450, image:"https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=500", desc:"Full package"},
+ {name:"Kids Haircut", price:250, image:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500", desc:"For kids under 12"}
+];
+
+document.getElementById('list').innerHTML = PRODUCTS.map(p=>`
+<div class="card">
+<img src="${p.image}" style="width:100%;height:230px;object-fit:cover">
+<div style="padding:13px">
+<b style="font-size:17px">${p.name}</b><br>
+<span style="color:gray;font-size:13px">${p.desc}</span><br>
+<div style="margin-top:8px">
+<span style="font-weight:bold;font-size:16px">KES ${p.price}</span>
+<a class="btn" href="https://wa.me/254701771654?text=Nataka ${encodeURIComponent(p.name)} - KES ${p.price} at Barber and Beyond">Book</a>
+<div style="clear:both"></div>
+</div>
+</div></div>`).join('');
+
+// Install logic
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault(); deferredPrompt = e;
+  document.getElementById('install').style.display = 'block';
+});
+function installApp(){
+  if(deferredPrompt){ deferredPrompt.prompt(); }
+  else{ alert('Tap Chrome 3 dots (top right) > Add to Home screen > Add'); }
+  document.getElementById('install').style.display='none';
+}
+setTimeout(()=>{ 
+  const el = document.getElementById('install');
+  if(el.style.display==='none') el.style.display='block';
+  setTimeout(()=>el.style.display='none', 10000);
+}, 3000);
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+ navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('fetch', e=>{})`], {type:'text/javascript'})));
+}
+                                                                                                                                                                                                                                 
